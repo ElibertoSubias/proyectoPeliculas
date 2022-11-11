@@ -64,7 +64,7 @@ function App() {
   useEffect(() => {
     // Obtenemos cuantas paginas se generaran
     setNumPages(Math.ceil((movies.length / sizePage)));
-    if (numPages > 1) {
+    if (Math.ceil((movies.length / sizePage)) > 1) {
       setPageable(true);
     } else {
       setPageable(false);
