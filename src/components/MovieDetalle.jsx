@@ -18,7 +18,6 @@ export default function MovieDetalle({ id, show, handleModal, ocultarLoading }) 
                 ocultarLoading();
                 setMovie(response.data);
             }
-            console.log(movie);
         })
         .catch((error) => {
             console.log(error);
@@ -36,7 +35,7 @@ export default function MovieDetalle({ id, show, handleModal, ocultarLoading }) 
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="example-modal-sizes-title-lg">
-                            {movie.title}
+                            {movie.title} - {movie.release_date }
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -46,6 +45,7 @@ export default function MovieDetalle({ id, show, handleModal, ocultarLoading }) 
                             null
                         )}
                         <p>{movie.overview}</p>
+                        <p><strong>Total de votos:</strong> {movie.vote_count }</p>
                         <strong>Genero</strong>
                         <ul>
                             {movie.genres ? (

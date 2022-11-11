@@ -11,6 +11,7 @@ import EnCartelera from "./components/EnCartelera";
 import Estrenos from "./components/Estrenos";
 import { Circles } from 'react-loader-spinner';
 import Nav from './components/NavSide/Nav'
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
 
@@ -30,10 +31,11 @@ function App() {
   const [pageActive, setPageActive] = useState([]);
   const [isActiveLoading, setisActiveLoading] = useState(false);
   const [opcion, setOpcion] = useState("home");
+  const [orden, setOrden] = useState(null);
 
   useEffect(() => {
+    setOrden(null);
     let urlOpcion = "";
-    console.log(opcion);
     if (opcion == "home") {
       urlOpcion = MOST_POPULAR;
     } else if (opcion == "encartelera") {
@@ -62,13 +64,16 @@ function App() {
   useEffect(() => {
     // Obtenemos cuantas paginas se generaran
     setNumPages(Math.ceil((movies.length / sizePage)));
-    setPageable(true);
+    if (numPages > 1) {
+      setPageable(true);
+    } else {
+      setPageable(false);
+    }
     setPageActive(movies.slice(0, sizePage));
   }, [movies]);
 
   const cambiarOpcion = (opcion) => {
     setIsActive(0);
-    console.log(opcion);
     setOpcion(opcion);
   }
 
@@ -128,10 +133,19 @@ function App() {
     });
   }
 
+  useEffect(() => {
+    if (orden == 0) {
+      setMovies(movies.sort((a, b) => (a.vote_count < b.vote_count ? -1 : 1)));
+    } else {
+      setMovies(movies.sort((a, b) => (a.vote_count > b.vote_count ? -1 : 1)));
+    }
+    cargarPagina(isActive, null, null);
+  }, [orden]);
+
   return (
     <>
       <header>
-        <Nav cambiarOpcion={cambiarOpcion} opcion={opcion} filtrarPorNombre={filtrarPorNombre} />
+        <Nav cambiarOpcion={cambiarOpcion} opcion={opcion} filtrarPorNombre={filtrarPorNombre} ordenMenor={() => setOrden(0)} ordenMayor={() => setOrden(1) } />
       </header>
       <Circles
         height="100"

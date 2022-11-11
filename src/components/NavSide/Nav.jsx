@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
 
-export default function Nav({ cambiarOpcion, opcion, filtrarPorNombre }) {
+export default function Nav({ cambiarOpcion, opcion, filtrarPorNombre, ordenMenor, ordenMayor }) {
 
     const [opcionActiva, setOpcionActiva] = useState("home");
     const [enteredText, setEnteredText] = useState('');
@@ -14,6 +16,14 @@ export default function Nav({ cambiarOpcion, opcion, filtrarPorNombre }) {
     const buscarPorNombre = (event) => {
         setEnteredText(event.target.value);
         filtrarPorNombre(event.target.value);
+    }
+
+    const ordenarPorMenor = () => {
+        ordenMenor();
+    }
+
+    const ordenarPorMayor = () => {
+        ordenMayor();
     }
 
     return (
@@ -39,6 +49,16 @@ export default function Nav({ cambiarOpcion, opcion, filtrarPorNombre }) {
                             </li>
                         </ul>
                         <form className="d-flex" role="search">
+                            <ul className="navbar-nav me-auto mb-2 mb-lg-0 border rounded">
+                                <li className="nav-item nav-link">
+                                    <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={() => ordenarPorMenor()} color="white" icon={faStarHalf} />
+                                </li>
+                                <li className="nav-item nav-link">
+                                    <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={() => ordenarPorMayor()} color="white" icon={faStar} />
+                                </li>
+                            </ul>
+
+                            <i className="fa fa-star" aria-hidden="true">2</i>
                             <input value={enteredText} onChange={(e) => buscarPorNombre(e)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
